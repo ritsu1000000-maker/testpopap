@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>おいしいたけ</title>
     <style>
-        /* 画面全体を覆って操作を禁止する（戻る・クリック対策） */
+        /* 画面全体を覆って操作を禁止する */
         body {
             background-color: #f0f0f0;
             font-family: sans-serif;
@@ -12,7 +12,7 @@
             height: 100vh;
         }
 
-        /* ポップアップの見た目を本物のダイアログ風にする */
+        /* ポップアップを本物のダイアログ風にする */
         .popup-box {
             position: fixed;
             top: 50%;
@@ -27,19 +27,12 @@
             z-index: 9999;
         }
 
-        /* タイトル部分 */
+        /* タイトル部分「おいしいたけ」 */
         .popup-title {
             background-color: #f8f9fa;
-            padding: 12px;
+            padding: 25px 20px; /* 余白を広げて文字がなくても綺麗に見えるように調整 */
             font-weight: bold;
-            font-size: 16px;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* 本文 */
-        .popup-body {
-            padding: 25px 20px;
-            font-size: 15px;
+            font-size: 18px;
             color: #333;
         }
 
@@ -57,7 +50,7 @@
             background: none;
             font-size: 16px;
             font-weight: bold;
-            color: #007aff; /* スマホのダイアログ風の青文字 */
+            color: #007aff; /* スマホ風の青文字 */
             cursor: pointer;
         }
 
@@ -76,7 +69,6 @@
     <!-- ポップアップ本体 -->
     <div class="popup-box">
         <div class="popup-title">おいしいたけ</div>
-        <div class="popup-body">どちらを購入しますか？</div>
         <div class="popup-buttons">
             <button class="choice-btn" onclick="loopPopup()">105円</button>
             <button class="choice-btn" onclick="loopPopup()">150円</button>
@@ -84,7 +76,7 @@
     </div>
 
     <script>
-        // ブラウザの「戻る」ボタンを押されても、このページを強制リロードして戻らせない
+        // ブラウザの「戻る」ボタンを押されても戻らせない
         window.addEventListener('popstate', function() {
             history.pushState(null, null, location.href);
         });
@@ -94,10 +86,8 @@
             history.pushState(null, null, location.href);
         };
 
-        // 「105円」「150円」のどちらを押しても実行される関数
+        // どちらのボタンを押してもページをリロードして無限ループ
         function loopPopup() {
-            // 一瞬だけ消して、すぐにまた新しい同じポップアップを出現させる（無限ループ）
-            // これにより、どちらを選んでも「戻れない・進めない」状態になります
             location.reload(); 
         }
     </script>
