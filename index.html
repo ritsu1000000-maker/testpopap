@@ -2,36 +2,28 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>2択ポップアップループ（戻れる版）</title>
+    <title>無限ループ</title>
 </head>
 <body>
 
-    <h1>ポップアップテスト画面</h1>
-    <p>ブラウザの「戻る」ボタンでいつでも元のページに戻れます。</p>
+    <h1>処理中...</h1>
 
     <script>
-        // ページのタイトルがダイアログのタイトル部分に反映されます
-        document.title = "【警告】システム確認";
+        // 戻るボタンが押された（履歴が切り替わった）瞬間を検知する
+        window.addEventListener('popstate', function() {
+            // 戻ろうとしても、強制的にこのページ（現在の履歴）に留まらせる
+            history.pushState(null, null, location.href);
+        });
 
-        function showPopupLoop() {
-            // confirmで「OK」と「キャンセル」の2択を表示
-            // ※ダイアログ内のタイトルはブラウザの仕様上、ページタイトルやURLが表示されます
-            const result = confirm("このまま処理を続行しますか？\n\n[OK] を押すとループを継続します。\n[キャンセル] を押してもループは終わりません。");
-
-            if (result) {
-                console.log("ユーザーが OK を押しました");
-            } else {
-                console.log("ユーザーが キャンセル を押しました");
-            }
-
-            // 0.1秒（100ミリ秒）後に次のポップアップを出す
-            // この「0.1秒の隙間」があるおかげで、ブラウザの「戻る」ボタンが反応できるようになります
-            setTimeout(showPopupLoop, 100);
-        }
-
-        // ページが読み込まれたらループを開始
+        // ページが読み込まれたら無限ポップアップを開始
         window.onload = function() {
-            showPopupLoop();
+            // 履歴に現在のページを登録して「戻る」の挙動をジャックする
+            history.pushState(null, null, location.href);
+
+            // 一番最初の、OKを押すしかない無限ループ
+            while (true) {
+                alert("ポップアップが流れています。");
+            }
         };
     </script>
 
