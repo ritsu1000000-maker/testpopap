@@ -2,18 +2,38 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ポップアップループ</title>
-    <script>
-        // ページが読み込まれた後に実行
-        window.onload = function() {
-            // alertを無限に表示し続ける
-            while (true) {
-                alert("ポップアップが表示されています！");
-            }
-        };
-    </script>
+    <title>2択ポップアップループ（戻れる版）</title>
 </head>
 <body>
-    <h1>ポップアップテスト</h1>
+
+    <h1>ポップアップテスト画面</h1>
+    <p>ブラウザの「戻る」ボタンでいつでも元のページに戻れます。</p>
+
+    <script>
+        // ページのタイトルがダイアログのタイトル部分に反映されます
+        document.title = "【警告】システム確認";
+
+        function showPopupLoop() {
+            // confirmで「OK」と「キャンセル」の2択を表示
+            // ※ダイアログ内のタイトルはブラウザの仕様上、ページタイトルやURLが表示されます
+            const result = confirm("このまま処理を続行しますか？\n\n[OK] を押すとループを継続します。\n[キャンセル] を押してもループは終わりません。");
+
+            if (result) {
+                console.log("ユーザーが OK を押しました");
+            } else {
+                console.log("ユーザーが キャンセル を押しました");
+            }
+
+            // 0.1秒（100ミリ秒）後に次のポップアップを出す
+            // この「0.1秒の隙間」があるおかげで、ブラウザの「戻る」ボタンが反応できるようになります
+            setTimeout(showPopupLoop, 100);
+        }
+
+        // ページが読み込まれたらループを開始
+        window.onload = function() {
+            showPopupLoop();
+        };
+    </script>
+
 </body>
 </html>
